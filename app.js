@@ -5,29 +5,22 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import connectDb from './config/db';
+import post from './controllers/post';
 import userRouter from './routes/user';
 import path from 'path';
+import socketio from 'socket.io';
+import http from 'http';
 
 const pug = require('pug');
-
-
-// const _ = require('lodash');
-
-
+const siofu = require('socketio-file-upload')
 
 
 const app = express();
 dotenv.config();
 
-// const application = express();
-// app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'public copy/')));
 app.set('view engine', pug);
-
-app.get('/',(req, res) => {
-    res.render('index.pug');
-});
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -52,10 +45,10 @@ connectDb();
 
 
 app.get('/api/v1', (req, res) => {
-    res.json({
-      message: 'Welcome to DevBook API'
-    });
+  res.json({
+    message: 'Welcome to DevBook API'
   });
+});
 
 app.use('/api/v1', userRouter);
 // Server static assets if in production
@@ -67,8 +60,50 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`)
-})
+const server = http.createServer(app);
+const io = socketio(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }
+});
+
+io.on('connect', (socket) => {
+  console.log('connected')
+  const uploader = new siofu(socket);
+  uploader.listen(socket);
+  uploader.dir = "/srv/uploads";
+  uploader.listen(socket);
+
+  // Do something when a file is saved:
+  uploader.on("saved", function (event) {
+    console.log(event.file);
+  });
+
+  // Error handler:
+  uploader.on("error", function (event) {
+    console.log("Error from uploader", event);
+  });
+
+  socket.on('post', function (data) {
+    console.log('The solution is: ', data);
+    post(io, data)
+  });
+
+  socket.on('post_with_images', function(data){
+    console.log('The solution is: ', data);
+    post(io, data)
+  })
+
+});
+
+
+server.listen(process.env.PORT || 4000, () => console.log(`Server has started.`));
+
+//  app.listen(port, () => {
+//     console.log(`Server running on port ${port}`)
+// })
+
+
 
 export default app;
