@@ -69,9 +69,20 @@ images: [
         type: String,
         required: true
       },
+      comment_id: {
+        type: Number,
+        // required: true
+      },
       name: {
         type: String
       },
+      commentLikes: [
+        {
+        user: {
+          type: String,
+        }
+      }
+      ],
       date: {
         type: Date,
         default: Date.now

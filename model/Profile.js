@@ -10,6 +10,9 @@ const ProfileSchema = new Schema({
   company: {
     type: String
   },
+  cover: {
+    type: String
+  },
   website: {
     type: String
   },
@@ -18,11 +21,14 @@ const ProfileSchema = new Schema({
   },
   status: {
     type: String,
-    required: true
+    // required: true
+  },
+  image: {
+    type: String,
   },
   skills: {
     type: [String],
-    required: true
+    // required: true
   },
   bio: {
     type: String
@@ -34,11 +40,11 @@ const ProfileSchema = new Schema({
     {
       title: {
         type: String,
-        required: true
+        // required: true
       },
       company: {
         type: String,
-        required: true
+        // required: true
       },
       location: {
         type: String

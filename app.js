@@ -6,6 +6,11 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import connectDb from './config/db';
 import post from './controllers/post';
+import likes from './controllers/likes';
+import comments from './controllers/comments';
+
+import commentLike from './controllers/commentLike';
+
 import userRouter from './routes/user';
 import path from 'path';
 import socketio from 'socket.io';
@@ -23,9 +28,10 @@ app.use(express.static(path.join(__dirname, 'public copy/')));
 app.set('view engine', pug);
 
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '50mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(express.static(__dirname + '/public'));
+
 
 app.use(cors());
 app.options('*', cors());
@@ -93,6 +99,21 @@ io.on('connect', (socket) => {
   socket.on('post_with_images', function(data){
     console.log('The solution is: ', data);
     post(io, data)
+  })
+
+  socket.on('like_post', function(data){
+    console.log('The solution is: ', data);
+    likes(io, data)
+  })
+
+  socket.on('add_comment', function(data){
+    console.log('The solution is: ', data);
+    comments(io, data)
+  })
+
+  socket.on('comment_like', function(data){
+    console.log('The solution is: ', data);
+    commentLike(io, data)
   })
 
 });
