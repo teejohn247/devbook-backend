@@ -22,6 +22,8 @@ dotenv.config();
 
         await new Post({
             file_id: data.file_id,
+            user_id:data.user_id,
+            user_image: data.user_image,
             text: data.text,
             name: data.name,
             images: arr,
@@ -32,13 +34,15 @@ dotenv.config();
      }else{
         await new Post({
             file_id: data.file_id,
+            user_id:data.user_id,
+            user_image: data.user_image,
             text: data.text,
             name: data.name,
             email:data.email
         })
         .save().then(io.sockets.emit('post', data))
-        console.log('msg emmited')
-     }
+        console.log('msg emmited1', data)
+    }
 
 }
 export default post;

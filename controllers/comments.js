@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
 import User from '../model/User';
 import Post from '../model/Post';
+import Notifications from '../model/Notifications';
+
 
 dotenv.config();
 
@@ -9,7 +11,7 @@ dotenv.config();
     let post = await Post.find({file_id: Number(data.file_id)})
     console.log('uu', post)
 
-        Post.findOneAndUpdate({file_id: Number(data.file_id)}, { $push: {comments: {comment_id:data.comment_id, text: data.text, name: data.name} }},
+        Post.findOneAndUpdate({file_id: Number(data.file_id)}, { $push: {comments: {comment_id:data.comment_id, user_image: data.user_image, text: data.text, name: data.name} }},
         { upsert: true, new: true },
         function(
             err,
@@ -23,7 +25,18 @@ dotenv.config();
             //   res.send(result);
             }
           });
-          io.sockets.emit('add_comment', data)
+
+          await new Notifications({
+            user: data.user,
+            sender_id: data.sender_id,
+            receiver_id: data.receiver_id,
+            sender_image: data.sender_image,
+            receiver_image: data.receiver_image,
+            sender_name: data.sender_name,
+            receiver_name: data.receiver_name,
+            notificationType: data.notificationType
+          })
+            .save().then(io.sockets.emit('add_comment', data))
 
     // }
   

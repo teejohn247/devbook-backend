@@ -3,14 +3,14 @@ import dotenv from 'dotenv';
 // import User from '../model/User';
 import Post from '../model/Post';
 import Profile from '../model/Profile';
-
+import Story from '../model/Story';
 // import Images from '../model/Images';
 
-const getPosts = async(req,res) => {
+const getStory = async(req,res) => {
     try{
         const profile = await Profile.findOne({ user: req.payload.id });
         // console.log({profile})
-        const frnds = [req.payload.id]
+        const frnds = []
 
         profile.friendsList.map((frnd,i) => {
             console.log('vcv',frnd.user)
@@ -21,19 +21,19 @@ const getPosts = async(req,res) => {
 
 
 
-        const posts = await Post.find().sort({date: -1 })
-        if(!posts){
+        const story = await Story.find().sort({date: -1 })
+        if(!story){
             res.status(404).json({
                 status:404,
                 error:'no post available'
             })
         }
         console.log('vv')
-      const allposts = await Post.find({user_id: {$in: frnds}}).sort({date: -1 })
-      console.log({allposts})
+      const allStories = await Story.find({user_id: {$in: frnds}})
+      console.log({allStories})
 
-         res.status(200).json(
-            allposts
+        res.status(200).json(
+            allStories
         )
     }catch(err){
         res.status(500).json({
@@ -43,4 +43,4 @@ const getPosts = async(req,res) => {
     }
 
 }
-export default getPosts;
+export default getStory;

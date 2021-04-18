@@ -19,6 +19,13 @@ const ProfileSchema = new Schema({
   location: {
     type: String
   },
+  name: {
+    type: String,
+    // required: true
+  },
+  email:{
+    type: String
+  },
   status: {
     type: String,
     // required: true
@@ -36,6 +43,73 @@ const ProfileSchema = new Schema({
   githubusername: {
     type: String
   },
+
+  sentRequests:[
+    {
+      user:{
+        type: String
+      },
+    }
+  ],
+
+  friendRequests:[
+    {
+      user:{
+        type: String
+      },
+      username:{
+        type: String
+      },
+      email:{
+        type: String
+      },
+      senderImage:{
+        type: String
+      },
+      receiverImage:{
+        type: String
+      }
+    }
+  ],
+  friendsList:[
+    {
+      user:{
+        type: String
+      },
+      username:{
+        type: String
+      },
+      email:{
+        type: String
+      },
+      senderImage:{
+        type: String
+      },
+      receiverImage:{
+        type: String
+      }
+    }
+  ],
+  searchedProfiles:[
+    {
+      user:{
+        type: String
+      },
+      username:{
+        type: String
+      },
+      email:{
+        type: String
+      },
+      sentRequests: [
+        {
+        user: {
+          type: String,
+        }
+      }
+      ]
+    }
+  ],
   experience: [
     {
       title: {
@@ -68,15 +142,15 @@ const ProfileSchema = new Schema({
     {
       school: {
         type: String,
-        required: true
+        // required: true
       },
       degree: {
         type: String,
-        required: true
+        // required: true
       },
       fieldofstudy: {
         type: String,
-        required: true
+        // required: true
       },
       from: {
         type: Date,

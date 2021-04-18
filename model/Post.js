@@ -14,6 +14,14 @@ const PostSchema = new Schema({
     type: Number,
     required: true
   },
+  user_id: {
+    type: String,
+    // required: true
+  },
+  user_image: {
+    type: String,
+    // required: true
+  },
   name: {
     type: String,
     required: true
@@ -68,6 +76,9 @@ images: [
       text: {
         type: String,
         required: true
+      },
+      user_image: {
+        type: String,
       },
       comment_id: {
         type: Number,
