@@ -24,6 +24,7 @@ import likes from '../controllers/likes';
 import auth from '../middleware/auth';
 import allProfiles from '../controllers/allProfiles';
 import getNotification from '../controllers/getNotifications';
+import deletePost from '../controllers/deletePost';
 
 
 const router = express.Router();
@@ -42,6 +43,7 @@ router.post('/fetchChats',auth, chat);
 router.get('/profile/:id',auth, getSpecific);
 router.get('/allprofiles',auth, allProfiles);
 router.get('/getProfiles',auth, getProfiles);
+router.delete('/del/post/:id',auth, deletePost);
 router.get('/notifications/:time/:page/:limit',auth, getNotification);
 
 

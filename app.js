@@ -19,6 +19,7 @@ import path from 'path';
 import socketio from 'socket.io';
 import http from 'http';
 import addChat from './controllers/addChat';
+import deletePost from './controllers/deletePost';
 
 const pug = require('pug');
 const siofu = require('socketio-file-upload')
@@ -172,6 +173,11 @@ io.on('connection', (socket) => {
   socket.on('chat', function (data) {
     console.log('The solution is: ', data);
     addChat(io, data)
+  })
+
+  socket.on('delete_post', function (data) {
+    console.log('The solution is: ', data);
+    deletePost(io, data)
   })
 
 
