@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Social Network for developers",
   "main": "app.js",
+  "engines": {
+    "node": "14.0.0"
+  },
   "scripts": {
     "build": "babel app.js --out-dir build",
     "start": "nodemon --exec babel-node app.js",

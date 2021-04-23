@@ -9,12 +9,11 @@ const chat = async (req, res) => {
         res.status(200).json(
             usersChat
         )
-        } catch (err) {
+    } catch (err) {
         res.status(500).json({
             status: 500,
             err: 'server error'
         })
     }
-
 }
 export default chat;
