@@ -73,7 +73,7 @@ if (process.env.NODE_ENV === 'production') {
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: {
-    origin: "https://devbook-front.herokuapp.com",
+    origin: "*",
     methods: ["GET", "POST"]
   }
 });
