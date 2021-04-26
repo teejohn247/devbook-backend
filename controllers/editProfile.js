@@ -9,9 +9,11 @@ import User from '../model/User';
 const editProfile = async (req, res) => {
     try {
         const prof = await Profile.findOne({ user: req.payload.id });
-        const user = await User.findOne({ user: req.payload.id });
+        const user = await User.findOne({ _id: req.payload.id });
 
         console.log({prof})
+        console.log({user})
+
 
         if (!prof) {
             res.status(404).json({
